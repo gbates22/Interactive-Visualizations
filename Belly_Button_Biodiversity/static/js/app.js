@@ -1,28 +1,19 @@
-
-// var $selDataset = document.getElementById("selDataset");
-// var $sampleMetadata = document.getElementById("metadata");
-// var $pie = document.getElementById("pie");
-// @TODO: Complete the following function that builds the metadata panel
 function buildMetadata(sample) {
   // Use `d3.json` to fetch the metadata for a sample
-  const url = "/metadata/<sample>";
-  // Fetch the JSON data and console log it
-  d3.json(url).then(function(data) {
+  d3.json(`/metadata/${sample}`).then((metaData) => {
     // Use d3 to select the panel with id of `#sample-metadata`
     var metaPanel = d3.select("#sample-metadata");
     //clear any existing metadata
     metaPanel.html("");
+
     // Use `Object.entries` to add each key and value pair to the panel
-    Object.entries(data).forEach(([key,value]) => {
-      metaPanel.append("b").text(('${key}:${value}'));
-      metaPanel.append("br")
+    Object.entries(metaData).forEach(([key, value]) => {
+      metaPanel.append("b").text((`${key}: ${value}`).toUpperCase());
+      metaPanel.append("br");
     });
   });
-  console.log(sampleData);
   console.log(metaPanel)
-    // Hint: Inside the loop, you will need to use d3 to append new
-    // tags for each key-value in the metadata.
-}
+};
 
 function buildCharts(sample) {
 
@@ -53,7 +44,9 @@ function buildCharts(sample) {
     var sampleArray = [];
 
     for (var i=0; i < sampleData.otu_ids.length; i++) {
-      sampleArray.push({'id': sampleData.otu_ids[i],'label': sampleData.otu_labels[i], 'value':sampleData.sample_values[i]});
+      sampleArray.push({'id': sampleData.otu_ids[i],
+                        'label': sampleData.otu_labels[i], 
+                        'value':sampleData.sample_values[i]});
     };
 
     sampleArray.sort((first, second) => second.value - first.value);
