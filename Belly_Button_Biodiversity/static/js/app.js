@@ -35,7 +35,7 @@ function buildCharts(sample) {
       xaxis: {title: 'OTU ID'},
       title: true
     };
-// Dynamically create buble plot based on selected Sample
+// Dynamically create bubble plot based on selected Sample
     Plotly.newPlot('bubble', trace1 , layout);
 
 // @TODO: Build a Pie Chart
