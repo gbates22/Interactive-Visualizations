@@ -30,26 +30,25 @@ function buildCharts(sample) {
                 color: sampleData.otu_ids
              }
     };
-
-    var data = [trace1];
-
+// Add title to x-axis
     var layout = {
       xaxis: {title: 'OTU ID'},
       title: true
     };
+// Dynamically create buble plot based on selected Sample
+    Plotly.newPlot('bubble', trace1 , layout);
 
-    Plotly.newPlot('bubble', data, layout);
-
-    // @TODO: Build a Pie Chart
+// @TODO: Build a Pie Chart
     var sampleArray = [];
 
+    // Iterate through sample data otu_ids and push corresponding variables to empty sampleArray
     for (var i=0; i < sampleData.otu_ids.length; i++) {
       sampleArray.push({'id': sampleData.otu_ids[i],
                         'label': sampleData.otu_labels[i], 
                         'value':sampleData.sample_values[i]});
     };
-
-    sampleArray.sort((first, second) => second.value - first.value);
+// Sort sampleArray to ensure top 10 rows are sliced 
+    sampleArray.sort((a, b) => b.value - a.value);
     var Sample10 = sampleArray.slice(0,10);
     console.log(Sample10);
 
@@ -59,10 +58,8 @@ function buildCharts(sample) {
       type: 'pie',
       hoverinfo: Sample10.map((sample) => sample.label)
     };
-
-    var data2 = [trace2];
-
-    Plotly.newPlot('pie', data2);
+// Dynamically create new pie chart based on selected sample
+    Plotly.newPlot('pie', trace2);
 
   });
 }
